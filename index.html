@@ -4,23 +4,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Anti-Gravity Weather App — Get real-time weather updates with a beautiful, modern interface.">
     <title>Anti-Gravity Weather App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <!-- Animated background particles -->
+    <div class="bg-particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
 
-    <div class="weather-container">
-        <div class="search-box">
-            <input type="text" id="city-input" placeholder="Enter city name...">
-            <button id="search-btn">Search</button>
+    <div class="app-wrapper">
+        <!-- App Header -->
+        <header class="app-header">
+            <div class="logo">
+                <span class="logo-icon">🌤️</span>
+                <h1>Weather WebApp</h1>
+            </div>
+            <p class="tagline">Real-time weather, beautifully delivered</p>
+        </header>
+
+        <!-- Search Section -->
+        <div class="search-section" id="search-section">
+            <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="city-input" placeholder="Search for a city..." autocomplete="off">
+                <button id="search-btn" aria-label="Search weather">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
         </div>
 
-        <div class="weather-card">
-            <h2 id="city-name">New York</h2>
-            <div id="weather-icon">☁️</div>
-            <h1 id="temperature">22°C</h1>
-            <p id="description">Partly Cloudy</p>
+        <!-- Weather Display Card -->
+        <div class="weather-card" id="weather-card">
+            <!-- Loading Spinner -->
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                <p>Fetching weather...</p>
+            </div>
+
+            <!-- Weather Content (hidden by default until search) -->
+            <div class="weather-content" id="weather-content">
+                <div class="weather-main">
+                    <div id="temp-emoji" class="temp-emoji">🌡️</div>
+                    <h2 id="city-name" class="city-name">Your City</h2>
+                    <div class="temp-row">
+                        <h1 id="temperature" class="temperature">--°C</h1>
+                    </div>
+                    <p id="description" class="description">Search a city to get started</p>
+                </div>
+
+                <div class="weather-divider"></div>
+                
+                <div class="weather-details">
+                    <div class="detail-item" id="detail-feels">
+                        <span class="detail-icon">🌡️</span>
+                        <div class="detail-text">
+                            <span class="detail-label">Feels Like</span>
+                            <span class="detail-value" id="feels-like">--°C</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" id="detail-humidity">
+                        <span class="detail-icon">💧</span>
+                        <div class="detail-text">
+                            <span class="detail-label">Humidity</span>
+                            <span class="detail-value" id="humidity">--%</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" id="detail-wind">
+                        <span class="detail-icon">💨</span>
+                        <div class="detail-text">
+                            <span class="detail-label">Wind Speed</span>
+                            <span class="detail-value" id="wind-speed">-- km/h</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" id="detail-visibility">
+                        <span class="detail-icon">👁️</span>
+                        <div class="detail-text">
+                            <span class="detail-label">Visibility</span>
+                            <span class="detail-value" id="visibility">-- km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-state" id="error-state">
+                <span class="error-icon">😕</span>
+                <h2 id="error-title">Oops!</h2>
+                <p id="error-message">Something went wrong</p>
+            </div>
         </div>
     </div>
     
