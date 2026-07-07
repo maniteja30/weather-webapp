@@ -36,16 +36,30 @@ searchButton.addEventListener('click', () => {
 // Paste your actual API key from OpenWeatherMap inside the quotes below
 
 // 3. Create an Asynchronous function to fetch live data from the API
+// 3. Create an Asynchronous function to fetch live data from the API
 async function getWeatherData(city) {
     // Construct the URL pointing to the OpenWeatherMap server
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-    // Send a request to the server and wait for it to respond
-    const response = await fetch(url);
+    try {
+        const response = await fetch(url);
 
-    // Convert the raw data response into a readable JavaScript Object (JSON)
-    const data = await response.json();
+        // If the city wasn't found (like a typo), throw an error
+        if (!response.ok) {
+            throw new Error("City not found");
+        }
 
-    // Log the data to the browser console so we can look inside it
-    console.log(data);
+        const data = await response.json();
+
+        // Update our floating card UI with real data!
+        cityNameDisplay.textContent = data.name;
+        tempDisplay.textContent = `${Math.round(data.main.temp)}°C`;
+        descDisplay.textContent = data.weather[0].description;
+
+    } catch (error) {
+        // Handle errors gracefully if something goes wrong
+        cityNameDisplay.textContent = "Error";
+        tempDisplay.textContent = "--°C";
+        descDisplay.textContent = error.message;
+    }
 }
